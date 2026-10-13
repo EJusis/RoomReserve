@@ -1,6 +1,5 @@
-@RoomReserve.Api_HostAddress = http://localhost:5144
+@RoomReserve.Api_HostAddress = http://localhost:5000
 
-GET {{RoomReserve.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+GET http://localhost:5000/api/rooms?floor=2
 
 ###
