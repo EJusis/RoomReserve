@@ -1,4 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
+using RoomReserve.Application.Reservations.Booking;
+using RoomReserve.Application.Reservations.Booking.Rules;
 using RoomReserve.Application.Rooms;
 using RoomReserve.Application.Users;
 
@@ -10,6 +12,17 @@ public static class DependencyInjection
     {
         services.AddScoped<IRoomService, RoomService>();
         services.AddScoped<IUserService, UserService>();
+
+        // Booking rules – executed in registration order
+        services.AddScoped<IBookingRule, ValidTimeRangeRule>();
+        services.AddScoped<IBookingRule, MaxDurationRule>();
+        services.AddScoped<IBookingRule, BookingHorizonRule>();
+        services.AddScoped<IBookingRule, ActiveRoomRule>();
+        services.AddScoped<IBookingRule, CapacityRule>();
+        services.AddScoped<IBookingRule, RoomAvailabilityRule>();
+        services.AddScoped<IBookingRule, OrganizerAvailabilityRule>();
+        services.AddScoped<BookingValidator>();
+
         return services;
     }
 }
