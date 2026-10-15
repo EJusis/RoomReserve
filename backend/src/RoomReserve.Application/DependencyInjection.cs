@@ -3,6 +3,7 @@ using RoomReserve.Application.Reservations.Booking;
 using RoomReserve.Application.Reservations.Booking.Rules;
 using RoomReserve.Application.Rooms;
 using RoomReserve.Application.Users;
+using RoomReserve.Application.Reservations;
 
 namespace RoomReserve.Application;
 
@@ -22,6 +23,8 @@ public static class DependencyInjection
         services.AddScoped<IBookingRule, RoomAvailabilityRule>();
         services.AddScoped<IBookingRule, OrganizerAvailabilityRule>();
         services.AddScoped<BookingValidator>();
+
+        services.AddScoped<IReservationService, ReservationService>();
 
         return services;
     }

@@ -1,4 +1,5 @@
 using RoomReserve.Domain.Enums;
+using RoomReserve.Domain.Errors;
 
 namespace RoomReserve.Domain.Entities;
 
@@ -28,4 +29,42 @@ public class Reservation
         Status == ReservationStatus.Booked && End <= now
             ? ReservationStatus.Completed
             : Status;
+
+                /// <summary>Cancel a reservation that has not started yet.</summary>
+    public Error? Cancel(DateTimeOffset now)
+    {
+        var error = GetStatus(now) switch
+        {
+            ReservationStatus.Cancelled => ReservationErrors.AlreadyCancelled,
+            ReservationStatus.Completed => ReservationErrors.AlreadyCompleted,
+            _ when Start <= now         => ReservationErrors.AlreadyStarted,
+            _                           => null
+        };
+
+        if (error is null)
+            Status = ReservationStatus.Cancelled;
+
+        return error;
+    }
+
+    /// <summary>End a meeting that is currently in progress.</summary>
+    public Error? EndEarly(DateTimeOffset now)
+    {
+        var error = GetStatus(now) switch
+        {
+            ReservationStatus.Cancelled => ReservationErrors.AlreadyCancelled,
+            ReservationStatus.Completed => ReservationErrors.AlreadyCompleted,
+            _ when now < Start          => ReservationErrors.NotStarted,
+            _                           => null
+        };
+
+        if (error is null)
+        {
+            Status = ReservationStatus.Completed;
+            EndedEarlyAt = now;
+        }
+
+        return error;
+    }
 }
+
