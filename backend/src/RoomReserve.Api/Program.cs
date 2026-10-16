@@ -4,6 +4,7 @@ using RoomReserve.Infrastructure;
 using RoomReserve.Infrastructure.Persistence;
 using RoomReserve.Application.Reservations.Booking;
 using Scalar.AspNetCore;
+using RoomReserve.Api.Errors;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,9 +22,16 @@ builder.Services
     .AddControllers()
     .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
+    .ConfigureApiBehaviorOptions(o => o.InvalidModelStateResponseFactory = ErrorResponses.FromModelState);
+
+builder.Services.AddProblemDetails();
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
+app.UseExceptionHandler(); 
 
 using (var scope = app.Services.CreateScope())
 {
