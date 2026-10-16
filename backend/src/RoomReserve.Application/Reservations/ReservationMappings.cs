@@ -15,5 +15,7 @@ public static class ReservationMappings
         r.End,
         r.EndedEarlyAt,
         r.AttendeeCount,
-        r.GetStatus(now));
+        r.GetStatus(now),
+        r.CanCancel(now),
+        r.CanEndEarly(now));
 }

@@ -65,6 +65,8 @@ public class ReservationServiceTests
         Assert.True(result.IsSuccess);
         Assert.Equal(ReservationStatus.Booked, result.Value!.Status);
         Assert.Equal(1, await _db.Reservations.CountAsync());
+        Assert.True(result.Value.CanCancel);
+        Assert.False(result.Value.CanEndEarly);
     }
 
     [Fact]

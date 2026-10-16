@@ -13,4 +13,6 @@ public record ReservationDto(
     DateTimeOffset End,
     DateTimeOffset? EndedEarlyAt,
     int AttendeeCount,
-    ReservationStatus Status);
+    ReservationStatus Status,
+    bool CanCancel,
+    bool CanEndEarly);

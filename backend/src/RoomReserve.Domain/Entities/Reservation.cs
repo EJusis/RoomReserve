@@ -31,40 +31,45 @@ public class Reservation
             : Status;
 
                 /// <summary>Cancel a reservation that has not started yet.</summary>
-    public Error? Cancel(DateTimeOffset now)
+        public Error? Cancel(DateTimeOffset now)
     {
-        var error = GetStatus(now) switch
-        {
-            ReservationStatus.Cancelled => ReservationErrors.AlreadyCancelled,
-            ReservationStatus.Completed => ReservationErrors.AlreadyCompleted,
-            _ when Start <= now         => ReservationErrors.AlreadyStarted,
-            _                           => null
-        };
-
+        var error = CancelError(now);
         if (error is null)
             Status = ReservationStatus.Cancelled;
-
         return error;
     }
 
-    /// <summary>End a meeting that is currently in progress.</summary>
     public Error? EndEarly(DateTimeOffset now)
     {
-        var error = GetStatus(now) switch
-        {
-            ReservationStatus.Cancelled => ReservationErrors.AlreadyCancelled,
-            ReservationStatus.Completed => ReservationErrors.AlreadyCompleted,
-            _ when now < Start          => ReservationErrors.NotStarted,
-            _                           => null
-        };
-
+        var error = EndEarlyError(now);
         if (error is null)
         {
             Status = ReservationStatus.Completed;
             EndedEarlyAt = now;
         }
-
         return error;
     }
+
+    public bool CanCancel(DateTimeOffset now) => CancelError(now) is null;
+    public bool CanEndEarly(DateTimeOffset now) => EndEarlyError(now) is null;
+
+    // Cancel only before the meeting starts
+    private Error? CancelError(DateTimeOffset now) => GetStatus(now) switch
+    {
+        ReservationStatus.Cancelled => ReservationErrors.AlreadyCancelled,
+        ReservationStatus.Completed => ReservationErrors.AlreadyCompleted,
+        _ when Start <= now         => ReservationErrors.AlreadyStarted,
+        _                           => null
+    };
+
+    // End early only while the meeting is in progress
+    private Error? EndEarlyError(DateTimeOffset now) => GetStatus(now) switch
+    {
+        ReservationStatus.Cancelled => ReservationErrors.AlreadyCancelled,
+        ReservationStatus.Completed => ReservationErrors.AlreadyCompleted,
+        _ when now < Start          => ReservationErrors.NotStarted,
+        _                           => null
+    };
+
 }
 
