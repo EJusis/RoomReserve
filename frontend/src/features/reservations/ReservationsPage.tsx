@@ -61,9 +61,7 @@ export function ReservationsPage() {
               <TableHead>When</TableHead>
               <TableHead className="text-right">Attendees</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead className="pr-4 text-right">
-                <span className="sr-only">Actions</span>
-              </TableHead>
+              <TableHead className="pr-4 text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
