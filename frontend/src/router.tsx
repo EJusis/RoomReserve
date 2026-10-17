@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import { Layout } from "@/components/Layout";
 import { RoomsPage } from "@/features/rooms/RoomsPage";
+import { UsersPage } from "@/features/users/UsersPage";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ export const router = createBrowserRouter([
         ),
       },
       { path: "rooms", element: <RoomsPage /> },
+      { path: "users", element: <UsersPage /> },
     ],
   },
 ]);
