@@ -4,6 +4,7 @@ using RoomReserve.Application.Reservations.Booking.Rules;
 using RoomReserve.Application.Rooms;
 using RoomReserve.Application.Users;
 using RoomReserve.Application.Reservations;
+using RoomReserve.Application.Reports;
 
 namespace RoomReserve.Application;
 
@@ -25,6 +26,7 @@ public static class DependencyInjection
         services.AddScoped<BookingValidator>();
 
         services.AddScoped<IReservationService, ReservationService>();
+        services.AddScoped<IReportService, ReportService>();
 
         return services;
     }

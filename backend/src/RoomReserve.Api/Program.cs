@@ -5,6 +5,7 @@ using RoomReserve.Infrastructure.Persistence;
 using RoomReserve.Application.Reservations.Booking;
 using Scalar.AspNetCore;
 using RoomReserve.Api.Errors;
+using RoomReserve.Application.Reports;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,11 +17,15 @@ builder.Services
     .Validate(o => o.MaxDurationDays > 0 && o.BookingHorizonDays > 0,
         "Booking limits must be positive.")
     .ValidateOnStart();
-builder.Services.AddInfrastructure();
-
 builder.Services
-    .AddControllers()
-    .AddJsonOptions(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+    .AddOptions<ReportOptions>()
+    .Bind(builder.Configuration.GetSection(ReportOptions.SectionName))
+    .Validate(o => o.LowUtilizationThreshold > 0 && o.LowUtilizationThreshold <= 1
+                   && o.MinMeetingsToFlag >= 1
+                   && o.DefaultPeriodDays > 0,
+        "Report settings are invalid.")
+    .ValidateOnStart();
+builder.Services.AddInfrastructure();
 
 builder.Services
     .AddControllers()
