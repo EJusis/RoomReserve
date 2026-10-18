@@ -41,3 +41,9 @@ export function nextFullHour(from = new Date()) {
   d.setHours(d.getHours() + 1, 0, 0, 0);
   return d;
 }
+
+export function localDate(offsetDays = 0) {
+  const d = new Date();
+  d.setDate(d.getDate() + offsetDays);
+  return toLocalInputValue(d).slice(0, 10);
+}

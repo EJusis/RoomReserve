@@ -59,3 +59,28 @@ export interface ProblemDetails {
   detail?: string;
   errors?: ApiErrorItem[];
 }
+
+export interface RoomUsage {
+  roomId: number;
+  roomName: string;
+  floor: number;
+  capacity: number;
+  isActive: boolean;
+  meetingCount: number;
+  endedEarlyCount: number;
+  cancelledCount: number;
+  bookedHours: number;
+  usedHours: number;
+  utilization: number | null;
+  isUnderused: boolean;
+}
+
+export interface RoomUsageReport {
+  from: string;
+  to: string;
+  totalBookedHours: number;
+  totalUsedHours: number;
+  overallUtilization: number | null;
+  lowUtilizationThreshold: number;
+  rooms: RoomUsage[];
+}

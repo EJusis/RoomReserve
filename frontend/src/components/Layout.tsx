@@ -7,6 +7,7 @@ const NAV_ITEMS = [
   { to: "/reservations", label: "Reservations" },
   { to: "/rooms", label: "Rooms" },
   { to: "/users", label: "Users" },
+  { to: "/usage", label: "Usage" },
 ];
 
 export function Layout() {
