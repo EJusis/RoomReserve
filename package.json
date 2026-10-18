@@ -1,7 +1,13 @@
 {
   "private": true,
+  "engines": {
+    "node": ">=20.19"
+  },
   "scripts": {
-    "dev": "concurrently -n api,web -c blue,green \"dotnet run --project backend/src/RoomReserve.Api\" \"npm --prefix frontend run dev\""
+    "postinstall": "npm --prefix frontend ci",
+    "dev": "concurrently -n api,web -c blue,green --kill-others-on-fail \"dotnet run --project backend/src/RoomReserve.Api\" \"npm --prefix frontend run dev\"",
+    "test": "dotnet test backend",
+    "build": "dotnet build backend && npm --prefix frontend run build"
   },
   "devDependencies": {
     "concurrently": "^10.0.6"

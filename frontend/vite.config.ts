@@ -15,7 +15,7 @@ export default defineConfig({
     port: 5173,
     // Forward API calls to ASP.NET so the browser only ever talks to one origin (no CORS)
     proxy: {
-      "/api": "http://localhost:5000",
+      "/api": "http://localhost:5080",
     },
   },
 });
