@@ -1,4 +1,4 @@
-import { TriangleAlertIcon } from "lucide-react";
+import { TriangleAlertIcon, PrinterIcon } from "lucide-react";
 import { useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +22,8 @@ import { cn } from "@/lib/utils";
 import { lastDays, useRoomUsage, type UsagePeriod } from "./api";
 import { StatTile } from "./StatTile";
 import { UtilizationMeter } from "./UtilizationMeter";
+import { printPage } from "@/lib/print";
+import { PrintHeader } from "./PrintHeader";
 
 const PRESETS = [7, 30, 90];
 
@@ -33,12 +35,28 @@ export function UsagePage() {
 
   return (
     <>
-      <PageHeader
-        title="Room usage"
-        description="Booked time vs. time actually used. Only time that has already passed is counted."
-      />
+      <PrintHeader period={period} />
 
-      <Card className="mb-4 py-4">
+      <div className="print:hidden">
+        <PageHeader
+          title="Room usage"
+          description="Booked time vs. time actually used. Only time that has already passed is counted."
+          action={
+            <Button
+              variant="outline"
+              disabled={!data}
+              onClick={() =>
+                printPage(`room-usage_${period.from}_${period.to}`)
+              }
+            >
+              <PrinterIcon />
+              Export PDF
+            </Button>
+          }
+        />
+      </div>
+
+      <Card className="mb-4 py-4 print:hidden">
         <CardContent className="flex flex-wrap items-end gap-4 px-4">
           <FilterField
             label="From"
@@ -91,7 +109,7 @@ export function UsagePage() {
       />
 
       {data && (
-        <div className="mb-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mb-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 print:grid-cols-4">
           <StatTile
             label="Booked"
             value={formatHours(data.totalBookedHours)}

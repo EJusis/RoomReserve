@@ -47,3 +47,12 @@ export function localDate(offsetDays = 0) {
   d.setDate(d.getDate() + offsetDays);
   return toLocalInputValue(d).slice(0, 10);
 }
+
+const dateFormat = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "short",
+  year: "numeric",
+});
+
+export const formatDate = (date: string) =>
+  dateFormat.format(new Date(`${date}T00:00`));

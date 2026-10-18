@@ -10,7 +10,7 @@ export function StatTile({
   hint?: string;
 }) {
   return (
-    <Card className="py-4">
+    <Card className="py-4 print:break-inside-avoid">
       <CardContent className="px-4">
         <p className="text-muted-foreground text-sm">{label}</p>
         <p className="mt-1 text-2xl font-semibold tabular-nums">{value}</p>
