@@ -29,7 +29,7 @@ Built as the technical assignment for the IDT team internship at Present Connect
 **Prerequisites:** [.NET 10 SDK](https://dotnet.microsoft.com/download) and [Node.js 20.19+](https://nodejs.org)
 
 ```bash
-git clone https://github.com/<your-username>/RoomReserve.git
+git clone https://github.com/EJusis/RoomReserve.git
 cd RoomReserve
 npm install     # installs root and frontend packages
 npm run dev     # starts the API and the web app together
